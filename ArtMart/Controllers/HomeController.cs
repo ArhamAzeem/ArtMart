@@ -1,9 +1,11 @@
 using System.Diagnostics;
 using ArtMart.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtMart.Controllers
 {
+    //[Authorize(Roles = "Customer, Artist")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;

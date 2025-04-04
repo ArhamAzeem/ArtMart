@@ -1,0 +1,373 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+	<title>@ViewData["Title"] - ArtMart</title>
+
+	<link rel="shortcut icon" href="~/frontendassets/assets/img/fav-icon.svg" />
+
+    <!-- Main css -->
+	<link rel="stylesheet" href="~/adminassets/vendors/bundle.css" type="text/css">
+
+    <!-- Google font -->
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+
+	<!-- Google font -->
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+	<!-- Fontawesome Icon -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+		  integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+		  crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+	<!-- Time Css -->
+	<link rel="stylesheet" href="~/adminassets/vendors/clockpicker/bootstrap-clockpicker.min.css" type="text/css">
+
+	<!-- Date CSS -->
+	<link rel="stylesheet" href="~/adminassets/vendors/datepicker/daterangepicker.css" type="text/css">
+
+	<!-- DataTable -->
+	<link rel="stylesheet" href="~/adminassets/vendors/dataTable/datatables.min.css" type="text/css">
+
+	<!--Select Dropdonw-->
+	<link rel="stylesheet" href="~/adminassets/vendors/select2/css/select2.min.css" type="text/css">
+
+	<!-- Magnific popup -->
+	<link rel="stylesheet" href="~/adminassets/vendors/lightbox/magnific-popup.css" type="text/css">
+
+	<!-- Form wizard -->
+	<link rel="stylesheet" href="~/adminassets/vendors/form-wizard/jquery.steps.css" type="text/css">
+	<!-- Prism -->
+	<link rel="stylesheet" href="~/adminassets/vendors/prism/prism.css" type="text/css">
+
+	<!-- App css -->
+	<link rel="stylesheet" href="~/adminassets/assets/css/app.min.css" type="text/css">
+
+	<!-- Main CSS -->
+	<link rel="stylesheet" href="~/adminassets/assets/main/css/main.css" type="text/css">
+
+	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+	<!-- Main scripts (JQUERY Included (3.4.1)) -->
+	<script src="<~/adminassets/vendors/bundle.js"></script>
+
+</head>
+<body>
+    <!-- Preloader -->
+    <div class="preloader">
+        <div class="preloader-icon"></div>
+        <span>Loading...</span>
+    </div>
+
+	<!-- Layout wrapper -->
+	<div class="layout-wrapper">
+	<!-- Header -->
+	<div class="header d-print-none">
+		<div class="header-container">
+			<div class="header-left mr-3 w-auto">
+				<div class="navigation-toggler mr-2">
+					<a href="#" data-action="navigation-toggler">
+						<i data-feather="menu"></i>
+					</a>
+				</div>
+
+				<div class="header-logo">
+					<a href="#">
+							<img class="w-50 logo ml-2 mr-2 mt-2" src="~/frontendassets/assets/img/header-logo.svg" alt="logo" />
+							@* <h5 class="mt-3 text-white">Art <br> Mart</h5> *@
+					</a>
+				</div>
+			</div>
+
+			<div class="header-body">
+				<div class="header-body-left">
+					@* <ul class="navbar-nav"> *@
+					@* 	<li class="nav-item mr-3"> *@
+					@* 		<div class="header-search-form"> *@
+					@* 			<form> *@
+					@* 				<div class="input-group"> *@
+					@* 					<div class="input-group-prepend"> *@
+					@* 						<button class="btn"> *@
+					@* 							<i data-feather="search"></i> *@
+					@* 						</button> *@
+					@* 					</div> *@
+					@* 					<input type="text" class="form-control" id="searchInput" onkeyup="filterNavigation()" placeholder="Search"> *@
+					@* 					<div class="input-group-append"> *@
+					@* 						<button class="btn header-search-close-btn"> *@
+					@* 							<i data-feather="x"></i> *@
+					@* 						</button> *@
+					@* 					</div> *@
+					@* 				</div> *@
+					@* 			</form> *@
+					@* 		</div> *@
+					@* 	</li> *@
+					@* 	<li class="nav-item dropdown d-none d-md-block"> *@
+					@* 		<a href="#" class="nav-link" title="Actions" data-toggle="dropdown">Create</a> *@
+					@* 		<div class="dropdown-menu"> *@
+					@* 			<a href="#" class="dropdown-item">Shop Route</a> *@
+					@* 		</div> *@
+					@* 	</li> *@
+					@* </ul> *@
+				</div>
+
+				<div class="header-body-right">
+					<ul class="navbar-nav">
+						<li class="nav-item d-none">
+							<a href="#" class="nav-link mobile-header-search-btn" title="Search">
+								<i data-feather="search"></i>
+							</a>
+						</li>
+
+						<li class="nav-item dropdown d-none d-md-block">
+							<a href="#" class="nav-link" title="Fullscreen" data-toggle="fullscreen">
+								<i class="maximize" data-feather="maximize"></i>
+								<i class="minimize" data-feather="minimize"></i>
+							</a>
+						</li>
+
+
+						<li class="nav-item dropdown">
+							<a href="#" class="nav-link dropdown-toggle user_manu" title="User menu" data-toggle="dropdown">
+								<figure class="avatar avatar-sm">
+										<img src="~/adminassets/assets/media/image/user/man_avatar1.jpg" class="rounded-circle"
+										 alt="avatar" />
+								</figure>
+								<span class="ml-2 d-sm-inline d-none">
+									Admin
+								</span>
+							</a>
+							<div class="dropdown-menu dropdown-menu-right dropdown-menu-big">
+								<div class="text-center py-4">
+									<figure class="avatar avatar-lg mb-3 border-0">
+											<img src="~/adminassets/assets/media/image/user/man_avatar1.jpg	" class="rounded-circle"
+											 alt="image" />
+									</figure>
+									<h5 class="text-center">
+										Admin
+									</h5>
+									<div class="mb-2 small text-center text-muted">
+										admin@domain.com
+									</div>
+								</div>
+								<div class="list-group">
+									<a href="#"
+									   class="list-group-item">View Profile</a>
+									<a href="#"
+									   class="list-group-item text-danger">
+										Sign
+										Out!
+									</a>
+								</div>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+			<ul class="navbar-nav ml-auto">
+				<li class="nav-item header-toggler">
+					<a href="#" class="nav-link">
+						<i data-feather="arrow-down"></i>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- ./ Header -->
+	<!-- Content wrapper -->
+	<div class="content-wrapper">
+	<!-- begin::navigation -->
+	<div class="navigation">
+		<div class="navigation-header">
+			<span>Navigation</span>
+			<a href="#">
+				<i class="ti-close"></i>
+			</a>
+		</div>
+		<div class="navigation-menu-body">
+			<ul>
+				<li>
+					<a href="#" class="active">
+						<span class=" nav-link-icon">
+							<i class="fas fa-chart-pie"></i>
+						</span>
+						<span>Dashboard</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+	<!-- end::navigation -->
+	<!-- Content body -->
+	<div class="content-body">
+		<!-- Content -->
+		<div class="content ">
+
+			@RenderBody()
+
+		</div>
+
+	<!-- Footer -->
+	<footer class="content-footer d-print-none">
+		<div>
+			© Copyrights @DateTime.Now.Year ArtMart -
+			<a href="https://v0-arhamium-311-xuhmqqdtst6-arhamazeems-projects.vercel.app/" target="_blank" style="color:#292524">Arhamium-311</a>
+		</div>
+		<div>
+			ArtMart - 1.0.0
+		</div>
+	</footer>
+	</div>
+	<!-- ./ Content body -->
+	</div>
+	<!-- ./ Content wrapper -->
+	</div>
+	<!-- ./ Layout wrapper -->
+	<!-- ./ Footer -->
+	<!-- Main scripts -->
+	<script src="~/adminassets/vendors/bundle.js"></script>
+
+	<script src="~/adminassets/assets/main/js/common.js"></script>
+
+	<!-- Datatable JS -->
+	<script src="~/adminassets/vendors/dataTable/datatables.min.js"></script>
+	<script src="~/adminassets/assets/js/examples/datatable.js"></script>
+
+	<!-- Sweet Alert JS -->
+	<script src="~/adminassets/assets/js/examples/sweet-alert.js"></script>
+
+	<!-- Input Mask -->
+	<script src="~/adminassets/vendors/input-mask/jquery.mask.js"></script>
+
+	<!-- Select JS -->
+	<script src="~/adminassets/vendors/select2/js/select2.min.js"></script>
+	<script src="~/adminassets/assets/js/examples/select2.js"></script>
+
+	<!-- Form repeater -->
+	<script src="~/adminassets/vendors/jquery.repeater.min.js"></script>
+	<script src="~/adminassets/assets/js/examples/pages/form-repeater.js"></script>
+
+	<!-- Javascript -->
+	<script src="~/adminassets/vendors/datepicker/daterangepicker.js"></script>
+
+	<!--Clockpicker JS-->
+	<script src="~/adminassets/vendors/clockpicker/bootstrap-clockpicker.min.js"></script>
+	<script src="~/adminassets/assets/js/examples/clockpicker.js"></script>
+
+	<!-- Magnific popup -->
+	<script src="~/adminassets/vendors/lightbox/jquery.magnific-popup.min.js"></script>
+
+	<!-- Isotope -->
+	<script src="~/adminassets/vendors/jquery.isotope.min.js"></script>
+	<script src="~/adminassets/assets/js/examples/pages/gallery.js"></script>
+
+	<!-- Form wizard -->
+	<script src="~/adminassets/vendors/form-wizard/jquery.steps.min.js"></script>
+	<script src="~/adminassets/assets/js/examples/form-wizard.js"></script>
+
+	<!-- Prism -->
+	<script src="~/adminassets/vendors/prism/prism.js"></script>
+
+	<!-- App scripts -->
+	<script src="~/adminassets/assets/js/app.min.js"></script>
+	<script>
+		function filterNavigation() {
+			var input = document.getElementById("searchInput").value.toLowerCase();
+			var navItems = document.querySelectorAll(".navigation-menu-body > ul > li");
+
+			navItems.forEach(function(item) {
+				var text = item.querySelector('a').textContent.toLowerCase();
+				var subItems = item.querySelectorAll('ul li a');
+				var matchedSubItem = false;
+
+				// Check if main item or any sub-item matches the search
+				if (text.includes(input)) {
+					item.style.display = "";
+				} else {
+					subItems.forEach(function(subItem) {
+						if (subItem.textContent.toLowerCase().includes(input)) {
+							matchedSubItem = true;
+						}
+					});
+					item.style.display = matchedSubItem ? "" : "none";
+				}
+			});
+		}
+		$(document).ready(function () {
+
+			// Initialize nicescroll on the content div when the page loads
+			$(".content").niceScroll();
+
+			// Reinitialize nicescroll on every scroll event
+			$(".content").scroll(function() {
+				$(".content").getNiceScroll().resize();
+				$(".content").niceScroll();
+			});
+
+			// Reinitialize nicescroll on every ajax complete
+			$(document).ajaxComplete(function() {
+				$(".content").getNiceScroll().resize();
+				$(".content").niceScroll();
+			});
+
+			$('[data-input-mask="cnic"]').mask('0000000000000');
+			$('[data-input-mask="phone"]').mask('000000000000')
+
+			$('.select2').select2({
+				placeholder: 'Select'
+			});
+
+			$('.select2_multiple').select2({
+				placeholder: 'Select',
+				closeOnSelect: false
+			});
+
+			// Event listener to handle checkbox state when options are selected/deselected
+			$('.select2_multiple').on('change', function(e) {
+				// Update checkboxes based on selected values
+				var selectedValues = $(this).val();
+				$('.select2-results__option').each(function() {
+					var optionId = $(this).data('select2-id'); // Get the option ID
+					$(this).find('input[type="checkbox"]').prop('checked', selectedValues.includes(optionId));
+				});
+			});
+
+			if ($('.image-popup').length) {
+				$('.image-popup').magnificPopup({
+					type: 'image',
+					zoom: {
+						enabled: true,
+						duration: 300,
+						easing: 'ease-in-out',
+						opener: function(openerElement) {
+							return openerElement.is('img') ? openerElement : openerElement.find('img');
+						}
+					}
+				});
+			}
+
+			toastr.options = {
+				timeOut: 3000,
+				progressBar: true,
+				showMethod: "slideDown",
+				hideMethod: "slideUp",
+				showDuration: 200,
+				hideDuration: 200
+			};
+
+			$(".toggle-password").click(function() {
+				$(this).toggleClass("fa-eye fa-eye-slash");
+				var input = $($(this).attr("toggle"));
+				if (input.attr("type") == "password") {
+					input.attr("type", "text");
+				} else {
+					input.attr("type", "password");
+				}
+			});
+
+		});
+	</script>
+	@RenderSection("Scripts", required: false)
+</body>
+</html>

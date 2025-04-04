@@ -1,0 +1,184 @@
+﻿@using ArtMart.Models.ViewModels
+@model LoginViewModel
+@{
+    Layout = null;  // Excludes _ViewStart.cshtml and any default layout
+    ViewData["Title"] = "Login";
+}
+
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@ViewData["Title"] - ArtMart</title>
+
+    <!-- Google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Fontawesome Icon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+          integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="~/frontendassets/assets/img/fav-icon.svg" />
+
+    <!-- Plugin styles -->
+    <link rel="stylesheet" href="~/adminassets/vendors/bundle.css" type="text/css">
+
+    <!-- App styles -->
+    <link rel="stylesheet" href="~/adminassets/assets/css/app.min.css" type="text/css">
+
+    <!-- Main CSS -->
+    <link rel="stylesheet" href="~/adminassets/assets/main/css/main.css" type="text/css">
+
+    <!-- Inline CSS for design adjustments -->
+    <style>
+        body {
+            background-color: #000;
+        }
+
+        .auth-card {
+            background-color: #fff;
+            border-radius: 20px;
+            width: 400px;
+            max-width: 90%;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            text-align: center;
+        }
+
+            .auth-card img.logo {
+                width: 100px;
+                height: 100px;
+                object-fit: cover;
+                border-radius: 50%;
+                margin-bottom: 1rem;
+            }
+
+        .auth-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            color: #000;
+            font-weight: bold;
+        }
+
+        .form-control {
+            border-radius: 10px !important;
+        }
+
+        .btn-gold {
+            background-color: #292524;
+            border-color: #292524;
+            color: #fff;
+            width: 100%;
+            border-radius: 10px;
+            font-weight: 600;
+            padding: 0.75rem;
+        }
+
+            .btn-gold:hover {
+                color: #fff;
+            }
+
+            .btn-gold:focus {
+                color: #fff;
+                transform: translateY(-1px);
+            }
+
+        .text-link a {
+            color: #292524;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #999;
+        }
+
+        .position-relative {
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- begin::preloader -->
+    <div class="preloader">
+        <div class="preloader-icon"></div>
+    </div>
+    <!-- end::preloader -->
+
+    <div class="d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+        <div class="auth-card">
+            <!-- Centered Logo -->
+            <img src="~/frontendassets/assets/img/fav-icon.svg" alt="Logo" class="logo border border-dark">
+
+            <!-- Prominent Heading -->
+            <h4 class="auth-title">Sign In to ArtMart</h4>
+
+            <!-- Form -->
+           <form asp-area="" asp-controller="Auth" asp-action="Login" method="post" class="text-left">
+                        @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <input asp-for="Email" class="form-control" placeholder="Enter Email" required autofocus />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
+                <div class="form-group position-relative">
+                    <input asp-for="Password" type="password" class="form-control" placeholder="Enter Password" required />
+                    <span toggle="#Password" class="fa fa-fw fa-eye toggle-password"></span>
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group d-flex justify-content-between">
+                    <div class="form-check">
+                        <input asp-for="RememberMe" class="form-check-input">
+                        <label asp-for="RememberMe" class="form-check-label">Remember me</label>
+                    </div>
+                    <a href="#" class="text-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-gold mt-3 d-flex justify-content-center">Sign In</button>
+            </form>
+            <!-- ./ Form -->
+
+            <p class="text-center mt-3 text-link">
+                Don't have an account? <a asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+            </p>
+        </div>
+    </div>
+    <!-- Floating Button -->
+    <a href="/Home/Index" class="floating-home-btn" title="Home" title="Home">
+        <i data-feather="home"></i>
+    </a>
+
+    <!-- Plugin scripts -->
+    <script src="~/adminassets/vendors/bundle.js"></script>
+
+    <!-- App scripts -->
+    <script src="~/adminassets/assets/js/app.min.js"></script>
+
+    <!-- Password Toggle Script -->
+    <script>
+        $(document).ready(function () {
+            $(".toggle-password").click(function () {
+                $(this).toggleClass("fa-eye fa-eye-slash");
+                var input = $(this).siblings("input");
+                if (input.attr("type") === "password") {
+                    input.attr("type", "text");
+                } else {
+                    input.attr("type", "password");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>
