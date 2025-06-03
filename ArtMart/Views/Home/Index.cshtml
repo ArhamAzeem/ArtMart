@@ -1,11 +1,16 @@
-﻿@{
+﻿@using ArtMart.Models
+@model dynamic
+@{
     ViewData["Title"] = "ArtMart | Your Online Gallery";
+    var liveProducts = ViewBag.LiveProducts as List<Product>;
+    var upcomingProducts = ViewBag.UpcomingProducts as List<Product>;
+
 }
 
 <!-- Home2 Search Bar Section Start -->
 <div class="home2-search-bar-section">
     <div class="container">
-        <div class="search-bar-wrap">
+        <div class="search-bar-wrap d-none">
             <div class="search-area">
                 <form>
                     <div class="form-inner">
@@ -39,7 +44,7 @@
                         <span>Explore Exclusive Collections</span>
                         <h1>Discover, Bid, and Collect Art from Around the World</h1>
                         <p>Unlock a world of imagination with our curated collection of original artworks.</p>
-                        <a href="auction-grid.html" class="primary-btn1 btn-hover">
+                        <a href="/Auction/Gallery" class="primary-btn1 btn-hover">
                             <span>Explore Auctions</span>
                             <strong></strong>
                         </a>
@@ -64,381 +69,84 @@
                     <h3>Streaming Auctions</h3>
                     <div class="section-content">
                         <p>Join us for an exhilarating live auction experience where art meets excitement. </p>
-                        <a href="auction-grid.html" class="view-all-btn">View All</a>
+                        <a href="/Auction/Gallery" class="view-all-btn">View All</a>
                     </div>
                 </div>
             </div>
         </div>
+        <!-- Slider Section Start -->
         <div class="auction-slider-wrap wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="swiper home1-auction-slider">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="auction-card">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="auction-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/auction-img1.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span>Live</span>
-                                        </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                        <div class="countdown-timer">
-                                            <ul data-countdown="2025-10-23 12:00:00">
-                                                <li class="times" data-days="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-hours="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-minutes="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-seconds="00">00</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">More than just art—it's a feeling</a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Frida Kahlo</li>
-                                            <li><span>Current Bidding : </span>$200.00</li>
-                                        </ul>
-                                        <a href="auction-details.html" class="bid-btn btn-hover">
-                                            <span>Bidding Start</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="auction-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/auction-img2.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span>Live</span>
-                                        </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                        <div class="countdown-timer">
-                                            <ul data-countdown="2025-09-18 12:00:00">
-                                                <li class="times" data-days="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-hours="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-minutes="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-seconds="00">00</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                A masterpiece that invites you to
-                                                dream
+                            @foreach (var product in liveProducts)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="auction-card">
+                                        <div class="auction-card-img-wrap">
+                                            <a href="/Auction/Details/@product.Id" class="card-img">
+                                                <img src="@product.ImageUrl" alt="@product.Name" />
                                             </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Pablo Picasso</li>
-                                            <li><span>Current Bidding : </span>$218.00</li>
-                                        </ul>
-                                        <a href="auction-details.html" class="bid-btn btn-hover">
-                                            <span>Bidding Start</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="auction-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/auction-img3.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span>Live</span>
-                                        </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                        <div class="countdown-timer">
-                                            <ul data-countdown="2025-09-25 12:00:00">
-                                                <li class="times" data-days="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-hours="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-minutes="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-seconds="00">00</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                A work of art that sparks your
-                                                imagination
+                                            <div class="batch">
+                                                <span>Live</span>
+                                            </div>
+                                            <!-- Example wishlist icon -->
+                                            <a href="#" class="wishlist">
+                                                <svg width="16" height="15" viewBox="0 0 16 15"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8 3L7 2L5 1L3 2L2 3L1 5L2 7L3 8L5 9L7 8L8 7L9 8L11 9L13 8L14 7L15 5L14 3L13 2L11 1L9 2L8 3Z" />
+                                                </svg>
                                             </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Yayoi Kusama</li>
-                                            <li><span>Current Bidding : </span>$358.00</li>
-                                        </ul>
-                                        <a href="auction-details.html" class="bid-btn btn-hover">
-                                            <span>Bidding Start</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="auction-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/auction-img4.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span>Live</span>
+                                            <!-- Countdown Timer Placeholder -->
+                                            <div class="countdown-timer">
+                                                <ul data-countdown="@product.BiddingEndTime.ToString("yyyy-MM-dd HH:mm:ss")">
+                                                    <li class="times" data-days="00">00</li>
+                                                    <li class="colon">:</li>
+                                                    <li class="times" data-hours="00">00</li>
+                                                    <li class="colon">:</li>
+                                                    <li class="times" data-minutes="00">00</li>
+                                                    <li class="colon">:</li>
+                                                    <li class="times" data-seconds="00">00</li>
+                                                </ul>
+                                            </div>
                                         </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                        <div class="countdown-timer">
-                                            <ul data-countdown="2025-10-25 12:00:00">
-                                                <li class="times" data-days="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-hours="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-minutes="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-seconds="00">00</li>
+                                        <div class="auction-card-content">
+                                            <h6>
+                                                <a href="/Auction/Details/@product.Id">
+                                                    @product.Name
+                                                </a>
+                                            </h6>
+                                            <ul>
+                                                <li><span>Artist : </span>@product.ArtistName</li>
+                                                <li><span>Current Bidding : </span>$@product.BiddingStartPrice.ToString("F2")</li>
                                             </ul>
-                                        </div>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                Whispers of Solitude of a Forgotten
-                                                City
+                                            <a href="/Auction/Details/@product.Id" class="bid-btn btn-hover">
+                                                <span>Bidding Start</span>
+                                                <strong></strong>
                                             </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Andy Warhol</li>
-                                            <li><span>Current Bidding : </span>$310.00</li>
-                                        </ul>
-                                        <a href="auction-details.html" class="bid-btn btn-hover">
-                                            <span>Bidding Start</span>
-                                            <strong></strong>
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="auction-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/auction-img5.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span>Live</span>
-                                        </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                        <div class="countdown-timer">
-                                            <ul data-countdown="2025-10-12 12:00:00">
-                                                <li class="times" data-days="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-hours="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-minutes="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-seconds="00">00</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">The Last Light Echoes of My Youth</a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Gustav Klimt</li>
-                                            <li><span>Current Bidding : </span>$284.00</li>
-                                        </ul>
-                                        <a href="auction-details.html" class="bid-btn btn-hover">
-                                            <span>Bidding Start</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="auction-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/auction-img6.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span>Live</span>
-                                        </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                        <div class="countdown-timer">
-                                            <ul data-countdown="2025-10-05 12:00:00">
-                                                <li class="times" data-days="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-hours="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-minutes="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-seconds="00">00</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                A brushstroke of serenity in a chaotic
-                                                world
-                                            </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Henri Matisse</li>
-                                            <li><span>Current Bidding : </span>$284.00</li>
-                                        </ul>
-                                        <a href="auction-details.html" class="bid-btn btn-hover">
-                                            <span>Bidding Start</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="auction-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/auction-img7.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span>Live</span>
-                                        </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                        <div class="countdown-timer">
-                                            <ul data-countdown="2025-09-18 12:00:00">
-                                                <li class="times" data-days="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-hours="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-minutes="00">00</li>
-                                                <li class="colon">
-                                                    :
-                                                </li>
-                                                <li class="times" data-seconds="00">00</li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">Dancing Colors on a Summer Breeze</a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Joan Miró</li>
-                                            <li><span>Current Bidding : </span>$256.00</li>
-                                        </ul>
-                                        <a href="auction-details.html" class="bid-btn btn-hover">
-                                            <span>Bidding Start</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            }
+                        </div>
+                    </div>
+                    <div class="slider-btn-grp">
+                        <div class="slider-btn auction-slider-prev">
+                            <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.735295 8.27932L10 16L4.10428 8.27932L10 0.558823L0.735295 8.27932Z" />
+                            </svg>
+                        </div>
+                        <div class="slider-btn auction-slider-next">
+                            <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.26471 7.72068L0 0L5.89572 7.72068L0 15.4412L9.26471 7.72068Z" />
+                            </svg>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="slider-btn-grp">
-                <div class="slider-btn auction-slider-prev">
-                    <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.735295 8.27932L10 16L4.10428 8.27932L10 0.558823L0.735295 8.27932Z" />
-                    </svg>
-                </div>
-                <div class="slider-btn auction-slider-next">
-                    <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.26471 7.72068L0 0L5.89572 7.72068L0 15.4412L9.26471 7.72068Z" />
-                    </svg>
-                </div>
-            </div>
         </div>
+        <!-- Slider Section End -->
     </div>
 </div>
 <!-- Home1 Auction Slider Section End -->
@@ -543,19 +251,19 @@
     </div>
 </div>
 <!-- Home2 About Section End -->
-<!-- Home1 General Art Section Start -->
+<!-- Upcoming Products Slider Section -->
 <div class="home1-general-art-slider-section mb-120">
     <div class="container">
         <div class="row mb-60 align-items-center justify-content-between flex-wrap gap-3 wow animate fadeInDown"
              data-wow-delay="200ms" data-wow-duration="1500ms">
             <div class="col-lg-8 col-md-9">
                 <div class="section-title">
-                    <h3>General Artwork</h3>
-                    <p>Join us for an exhilarating live auction experience where art meets excitement.</p>
+                    <h3>Upcoming Artwork</h3>
+                    <p>Discover upcoming art pieces, ready to captivate you.</p>
                 </div>
             </div>
             <div class="col-lg-2 col-md-2 d-flex justify-content-md-end">
-                <a href="general-art-grid.html" class="view-all-btn">View All</a>
+                <a href="/Auction/Gallery" class="view-all-btn">View All</a>
             </div>
         </div>
         <div class="general-art-slider-wrap wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
@@ -563,239 +271,59 @@
                 <div class="col-lg-12">
                     <div class="swiper home1-generat-art-slider">
                         <div class="swiper-wrapper">
-                            <div class="swiper-slide">
-                                <div class="auction-card general-art">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="general-art-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/general-art-img1.jpg" alt="">
-                                        </a>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">Dancing Colors on a Summer Breeze</a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Joan Miró</li>
-                                            <li><span>Current Bidding : </span>$200.00</li>
-                                        </ul>
-                                        <a href="general-art-details.html" class="bid-btn btn-hover">
-                                            <span>Buy Now</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card general-art">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="general-art-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/general-art-img2.jpg" alt="">
-                                        </a>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                The Last Light Echoes of My Youth
+                            @foreach (var product in upcomingProducts)
+                            {
+                                <div class="swiper-slide">
+                                    <div class="auction-card general-art">
+                                        <div class="auction-card-img-wrap">
+                                            <a href="/Auction/Details/@product.Id" class="card-img">
+                                                <img src="@product.ImageUrl" alt="@product.Name" />
                                             </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Andy Warhol</li>
-                                            <li><span>Current Bidding : </span>$270.00</li>
-                                        </ul>
-                                        <a href="general-art-details.html" class="bid-btn btn-hover">
-                                            <span>Buy Now</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card general-art">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="general-art-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/general-art-img3.jpg" alt="">
-                                        </a>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                Whispers of Solitude of a Forgotten
-                                                City
+                                            <a href="#" class="wishlist">
+                                                <svg width="16" height="15" viewBox="0 0 16 15"
+                                                     xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M8 0 L7 1 L5 2 L3 1 L2 0 L1 2 L2 4 L3 5 L5 6 L7 5 L8 4 L9 5 L11 6 L13 5 L14 4 L15 2 L14 0 L13 -1 L11 0 L9 1 L8 0" />
+                                                </svg>
                                             </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Frida Kahlo</li>
-                                            <li><span>Current Bidding : </span>$320.00</li>
-                                        </ul>
-                                        <a href="general-art-details.html" class="bid-btn btn-hover">
-                                            <span>Buy Now</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card general-art">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="general-art-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/general-art-img4.jpg" alt="">
-                                        </a>
-                                        <div class="batch">
-                                            <span class="sold-out">Sold Out</span>
                                         </div>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                Sighs of Isolation from a Lost
-                                                City
+                                        <div class="auction-card-content">
+                                            <h6>
+                                                <a href="/Auction/Details/@product.Id">
+                                                    @product.Name
+                                                </a>
+                                            </h6>
+                                            <ul>
+                                                <li><span>Artist : </span>@product.ArtistName</li>
+                                                <li><span>Starting Bid : </span>$@product.BiddingStartPrice.ToString("F2")</li>
+                                            </ul>
+                                            <a href="/Auction/Details/@product.Id" class="bid-btn btn-hover">
+                                                <span>Buy Now</span>
+                                                <strong></strong>
                                             </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Pablo Picasso</li>
-                                            <li><span>Current Bidding : </span>$380.00</li>
-                                        </ul>
-                                        <a href="general-art-details.html" class="bid-btn btn-hover disabled">
-                                            <span>Buy Now</span>
-                                            <strong></strong>
-                                        </a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card general-art">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="general-art-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/general-art-img5.jpg" alt="">
-                                        </a>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">Bright Colors on the Summer Wind</a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Joan Miró</li>
-                                            <li><span>Current Bidding : </span>$250.00</li>
-                                        </ul>
-                                        <a href="general-art-details.html" class="bid-btn btn-hover">
-                                            <span>Buy Now</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card general-art">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="general-art-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/general-art-img6.jpg" alt="">
-                                        </a>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                The Final Rays of Light from My
-                                                Childhood
-                                            </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Andy Warhol</li>
-                                            <li><span>Current Bidding : </span>$230.00</li>
-                                        </ul>
-                                        <a href="general-art-details.html" class="bid-btn btn-hover">
-                                            <span>Buy Now</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="auction-card general-art">
-                                    <div class="auction-card-img-wrap">
-                                        <a href="general-art-details.html" class="card-img">
-                                            <img src="~/frontendassets/assets/img/home1/general-art-img7.jpg" alt="">
-                                        </a>
-                                        <a href="#" class="wishlist">
-                                            <svg width="16" height="15" viewBox="0 0 16 15"
-                                                 xmlns="http://www.w3.org/2000/svg">
-                                                <path d="M8.00013 3.32629L7.32792 2.63535C5.75006 1.01348 2.85685 1.57317 1.81244 3.61222C1.32211 4.57128 1.21149 5.95597 2.10683 7.72315C2.96935 9.42471 4.76378 11.4628 8.00013 13.6828C11.2365 11.4628 13.03 9.42471 13.8934 7.72315C14.7888 5.95503 14.6791 4.57128 14.1878 3.61222C13.1434 1.57317 10.2502 1.01254 8.67234 2.63441L8.00013 3.32629ZM8.00013 14.8125C-6.375 5.31378 3.57406 -2.09995 7.83512 1.8216C7.89138 1.87317 7.94669 1.9266 8.00013 1.98192C8.05303 1.92665 8.10807 1.87349 8.16513 1.82254C12.4253 -2.10182 22.3753 5.31284 8.00013 14.8125Z" />
-                                            </svg>
-                                        </a>
-                                    </div>
-                                    <div class="auction-card-content">
-                                        <h6>
-                                            <a href="auction-details.html">
-                                                The Shining Day Remnants of My Early
-                                                Years
-                                            </a>
-                                        </h6>
-                                        <ul>
-                                            <li><span>Artist : </span>Yayoi Kusama</li>
-                                            <li><span>Current Bidding : </span>$230.00</li>
-                                        </ul>
-                                        <a href="general-art-details.html" class="bid-btn btn-hover">
-                                            <span>Buy Now</span>
-                                            <strong></strong>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                            }
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="slider-btn-grp">
-                <div class="slider-btn generat-art-slider-prev">
-                    <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0.735295 8.27932L10 16L4.10428 8.27932L10 0.558823L0.735295 8.27932Z" />
-                    </svg>
-                </div>
-                <div class="slider-btn generat-art-slider-next">
-                    <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M9.26471 7.72068L0 0L5.89572 7.72068L0 15.4412L9.26471 7.72068Z" />
-                    </svg>
+                    <!-- Slider navigation (if needed) -->
+                    <div class="slider-btn-grp">
+                        <div class="slider-btn generat-art-slider-prev">
+                            <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.735295 8.27932L10 16L4.10428 8.27932L10 0.558823L0.735295 8.27932Z" />
+                            </svg>
+                        </div>
+                        <div class="slider-btn generat-art-slider-next">
+                            <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.26471 7.72068L0 0L5.89572 7.72068L0 15.4412L9.26471 7.72068Z" />
+                            </svg>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-<!-- Home1 General Art Section End -->
 <!-- Home2 Artistic Section Start -->
 <div class="home2-artistic-section mb-120">
     <div class="container">
@@ -1069,7 +597,7 @@
             <div class="row g-4 align-items-center">
                 <div class="col-lg-6 d-sm-block d-none">
                     <div class="testimonial-img">
-                        <img src="assets/img/home2/home2-testimonial-img.jpg" alt="">
+                        <img src="~/frontendassets/assets/img/home2/home2-testimonial-img.jpg" alt="">
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -1091,7 +619,7 @@
                                     <div class="testimonial-bottom-area">
                                         <div class="author-area">
                                             <div class="author-img">
-                                                <img src="assets/img/home1/testimonial-author-img1.png" alt="">
+                                                <img src="~/frontendassets/assets/img/home1/testimonial-author-img1.png" alt="">
                                             </div>
                                             <div class="author-content">
                                                 <h5>Miss. Abelam</h5>
@@ -1121,7 +649,7 @@
                                     <div class="testimonial-bottom-area">
                                         <div class="author-area">
                                             <div class="author-img">
-                                                <img src="assets/img/home1/testimonial-author-img2.png" alt="">
+                                                <img src="~/frontendassets/assets/img/home1/testimonial-author-img2.png" alt="">
                                             </div>
                                             <div class="author-content">
                                                 <h5>Mr. Harry</h5>
@@ -1151,7 +679,7 @@
                                     <div class="testimonial-bottom-area">
                                         <div class="author-area">
                                             <div class="author-img">
-                                                <img src="assets/img/home1/testimonial-author-img3.png" alt="">
+                                                <img src="~/frontendassets/assets/img/home1/testimonial-author-img3.png" alt="">
                                             </div>
                                             <div class="author-content">
                                                 <h5>Luke Jane</h5>
@@ -1181,7 +709,7 @@
                                     <div class="testimonial-bottom-area">
                                         <div class="author-area">
                                             <div class="author-img">
-                                                <img src="assets/img/home1/testimonial-author-img4.png" alt="">
+                                                <img src="~/frontendassets/assets/img/home1/testimonial-author-img4.png" alt="">
                                             </div>
                                             <div class="author-content">
                                                 <h5>Miss. Abid</h5>
@@ -1211,7 +739,7 @@
                                     <div class="testimonial-bottom-area">
                                         <div class="author-area">
                                             <div class="author-img">
-                                                <img src="assets/img/home1/testimonial-author-img5.png" alt="">
+                                                <img src="~/frontendassets/assets/img/home1/testimonial-author-img5.png" alt="">
                                             </div>
                                             <div class="author-content">
                                                 <h5>Mrs. Lucas</h5>

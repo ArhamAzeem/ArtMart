@@ -1,0 +1,65 @@
+﻿@model List<ArtMart.Models.PromotionRequest>
+
+@{
+    ViewData["Title"] = "Requests";
+}
+
+<div class="page-header">
+    <div>
+        <h3>Artist Requests</h3>
+        <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+            <ul class="d-flex flex-wrap align-items-center list-unstyled m-0 p-0">
+                <li class="me-2">
+                    <a href="/" class="text-decoration-none text-dark">
+                        <i class="fas fa-home mr-2"></i>@ViewBag.SiteName
+                    </a>
+                </li>
+                <li class="text-muted">
+                    <i class="fa-solid fa-angle-right mx-2"></i>Requests
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="datatable table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>User Full Name</th>
+                                <th>Email</th>
+                                <th>Request Date</th>
+                                <th>Message</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var request in Model)
+                            {
+                                <tr>
+                                    <td>@request.User.FullName</td>
+                                    <td>@request.User.Email</td>
+                                    <td>@request.RequestDate.ToLocalTime().ToString("g")</td>
+                                    <td>@request.ResponseMessage</td>
+                                    <td>
+                                        <a href="/Admin/PromotionRequests/Accept/@request.Id" class="btn btn-success btn-sm" title="Accept">
+                                            <i class="fas fa-check"></i>
+                                        </a>
+                                        <a href="/Admin/PromotionRequests/Reject/@request.Id" class="btn btn-danger btn-sm" title="Reject">
+                                            <i class="fas fa-times"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

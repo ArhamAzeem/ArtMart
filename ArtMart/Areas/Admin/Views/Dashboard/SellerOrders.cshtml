@@ -1,0 +1,82 @@
+﻿@model List<ArtMart.Models.Order>
+@{
+    ViewBag.Title = "My Orders";
+    var statusOptions = new[] { "Pending", "Confirmed", "Shipped", "Delivered", "Cancelled" };
+}
+
+<div class="page-header mb-4">
+    <div>
+        <h3>My Orders</h3>
+        <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+
+            <ul class="d-flex flex-wrap align-items-center list-unstyled m-0 p-0">
+                <li class="me-2">
+                    <a href="/" class="text-decoration-none text-dark">
+                        <i class="fas fa-home me-2"></i>@ViewBag.SiteName
+                    </a>
+                </li>
+                <li class="text-muted">
+                    <i class="fa-solid fa-angle-right mx-2"></i>My Orders
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="datatable table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Buyer</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Placed At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var order in Model)
+                            {
+                                <tr>
+                                    <td>@order.Product?.Name</td>
+                                    <td>@order.Customer</td>
+                                    <td>Rs. @order.Amount.ToString("N0")</td>
+                                    <td>
+                                        <span class="badge bg-secondary">@order.Status</span>
+                                    </td>
+                                    <td>@order.PlacedAt.ToString("g")</td>
+                                    <td>
+                                        <form method="post" asp-action="UpdateStatus" asp-controller="Dashboard" class="d-flex gap-1">
+                                            <input type="hidden" name="id" value="@order.Id" />
+                                            <select name="newStatus" class="form-select form-select-sm">
+                                                @foreach (var status in statusOptions)
+                                                {
+                                                    if (status == order.Status)
+                                                    {
+                                                        <option value="@status" selected>@status</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@status">@status</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <button type="submit" class="btn btn-sm btn-success">Update</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

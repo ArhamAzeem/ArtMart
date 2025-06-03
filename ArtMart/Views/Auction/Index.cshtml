@@ -1,0 +1,181 @@
+﻿@model IEnumerable<ArtMart.Models.Product>
+@using ArtMart.Models
+
+@{
+    ViewData["Title"] = "ArtMart | Auction Gallery";
+
+    var allStatuses = ViewBag.AllStatuses as string[];
+    var allCategories = ViewBag.AllCategories as List<Category>;
+    var allArtists = ViewBag.AllArtists as List<string>;
+    var filteredStatuses = ViewBag.FilteredStatuses as string[] ?? new string[0];
+    var filteredCategories = ViewBag.FilteredCategories as int[] ?? new int[0];
+    var filteredArtists = ViewBag.FilteredArtists as string[] ?? new string[0];
+    var minPrice = ViewBag.MinPrice as decimal? ?? 0;
+    var maxPrice = ViewBag.MaxPrice as decimal? ?? 0;
+}
+
+<!-- Breadcrumb section strats here -->
+<div class="breadcrumb-section2"
+     style="background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.28)), url(~/frontassets/assets/img/inner-page/breadcrumb-image2.jpg);">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 d-flex">
+                <div class="top-content style-2">
+                    <ul>
+                        <li>
+                            <a href="index-2.html">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.125 5.99955L5.602 1.52205C5.822 1.30255 6.178 1.30255 6.3975 1.52205L10.875 5.99955M2.25 4.87455V9.93705C2.25 10.2475 2.502 10.4995 2.8125 10.4995H4.875V8.06205C4.875 7.75155 5.127 7.49955 5.4375 7.49955H6.5625C6.873 7.49955 7.125 7.75155 7.125 8.06205V10.4995H9.1875C9.498 10.4995 9.75 10.2475 9.75 9.93705V4.87455M4.125 10.4995H8.25"
+                                          stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li>Art Catalog</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb-content">
+                    <h1>Art Catalog</h1>
+                    <p>
+                        An art catalog is a curated assembly of artworks gathered by an individual, institution, or
+                        group, often reflecting the collector's interests, tastes, or a specific theme.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb section ends here -->
+<div class="container mt-4">
+    <h2>Auction Gallery</h2>
+    <!-- Filter Form -->
+    <form method="get" action="/Auction/Gallery">
+        <div class="row">
+            <!-- Status Filters: display checkboxes for each ProductStatus -->
+            <div class="col-md-3">
+                <h5>Status</h5>
+                @foreach (var status in allStatuses)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="statuses" value="@status"
+                        @(filteredStatuses.Contains(status) ? "checked" : "") />
+                        <label class="form-check-label">@status</label>
+                    </div>
+                }
+            </div>
+
+            <!-- Category Filters -->
+            <div class="col-md-3">
+                <h5>Category</h5>
+                @foreach (var category in allCategories)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="categories" value="@category.Id"
+                        @(filteredCategories.Contains(category.Id) ? "checked" : "") />
+                        <label class="form-check-label">@category.Name</label>
+                    </div>
+                }
+            </div>
+
+            <!-- Artist Filters -->
+            <div class="col-md-3">
+                <h5>Artist</h5>
+                @foreach (var artist in allArtists)
+                {
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="artists" value="@artist"
+                        @(filteredArtists.Contains(artist) ? "checked" : "") />
+                        <label class="form-check-label">@artist</label>
+                    </div>
+                }
+            </div>
+
+            <!-- Price Filters -->
+            <div class="col-md-3">
+                <h5>Price Filter</h5>
+                <div class="form-group">
+                    <label>Min Price</label>
+                    <input type="number" class="form-control" name="minPrice" step="0.01" value="@minPrice" />
+                </div>
+                <div class="form-group">
+                    <label>Max Price</label>
+                    <input type="number" class="form-control" name="maxPrice" step="0.01" value="@maxPrice" />
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Filter</button>
+    </form>
+
+    <!-- Auction Gallery Slider Section -->
+    <div class="auction-slider-wrap mt-5 wow animate fadeInUp" data-wow-delay="200ms" data-wow-duration="1500ms">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="swiper home1-auction-slider">
+                    <div class="swiper-wrapper">
+                        @foreach (var product in Model)
+                        {
+                            <div class="swiper-slide">
+                                <div class="auction-card">
+                                    <div class="auction-card-img-wrap">
+                                        <a href="/Auction/Details/@product.Id" class="card-img">
+                                            <img src="@product.ImageUrl" alt="@product.Name" />
+                                        </a>
+                                        <div class="batch">
+                                            <span>@product.Status</span>
+                                        </div>
+                                        <a href="#" class="wishlist">
+                                            <svg width="16" height="15" viewBox="0 0 16 15" xmlns="http://www.w3.org/2000/svg">
+                                                <path d="M8 0 L7 1 L5 2 L3 1 L2 0 L1 2 L2 4 L3 5 L5 6 L7 5 L8 4 L9 5 L11 6 L13 5 L14 4 L15 2 L14 0 L13 -1 L11 0 L9 1 L8 0" />
+                                            </svg>
+                                        </a>
+                                        <div class="countdown-timer">
+                                            <ul data-countdown="@product.BiddingEndTime.ToString("yyyy-MM-dd HH:mm:ss")">
+                                                <li class="times" data-days="00">00</li>
+                                                <li class="colon">:</li>
+                                                <li class="times" data-hours="00">00</li>
+                                                <li class="colon">:</li>
+                                                <li class="times" data-minutes="00">00</li>
+                                                <li class="colon">:</li>
+                                                <li class="times" data-seconds="00">00</li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="auction-card-content">
+                                        <h6>
+                                            <a href="/Auction/Details/@product.Id">@product.Name</a>
+                                        </h6>
+                                        <ul>
+                                            <li><span>Artist : </span>@product.Seller?.FullName</li>
+                                            <li><span>Starting Bid : </span>$@product.BiddingStartPrice.ToString("F2")</li>
+                                        </ul>
+                                        <a href="/Auction/Details/@product.Id" class="bid-btn btn-hover">
+                                            <span>Bidding Start</span>
+                                            <strong></strong>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <!-- Slider Navigation Buttons (update selectors as needed for your slider plugin) -->
+                    <div class="slider-btn-grp">
+                        <div class="slider-btn auction-slider-prev">
+                            <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M0.735295 8.27932L10 16L4.10428 8.27932L10 0.558823L0.735295 8.27932Z" />
+                            </svg>
+                        </div>
+                        <div class="slider-btn auction-slider-next">
+                            <svg width="10" height="16" viewBox="0 0 10 16" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M9.26471 7.72068L0 0L5.89572 7.72068L0 15.4412L9.26471 7.72068Z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

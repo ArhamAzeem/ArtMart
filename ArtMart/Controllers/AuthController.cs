@@ -1,21 +1,26 @@
 ﻿using ArtMart.Models;
 using ArtMart.Models.ViewModels;
+using ArtMart.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ArtMart.Controllers
 {
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        
-        public AuthController(SignInManager<ApplicationUser> signInManager, UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager)
+        private readonly NotificationService _notificationService;
+
+        public AuthController(SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, 
+            NotificationService notificationService)
         {
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _notificationService = notificationService;
         }
 
         //Register Page
@@ -42,6 +47,9 @@ namespace ArtMart.Controllers
                 {
                     await _userManager.AddToRoleAsync(user, "Customer"); // Assign Role
                     await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    SetUserSession(user); // Store user info in session
+
                     return RedirectToAction("Index", "Home", new { area = "" });
                 }
 
@@ -60,6 +68,8 @@ namespace ArtMart.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+            await _notificationService.CheckAndSendBiddingEndNotifications();
+
             if (ModelState.IsValid)
             {
                 var user = await _userManager.FindByEmailAsync(model.Email);
@@ -68,6 +78,8 @@ namespace ArtMart.Controllers
                     var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
                     if (result.Succeeded)
                     {
+                        SetUserSession(user); // Store user info in session
+
                         if (await _userManager.IsInRoleAsync(user, "Admin"))
                             return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
                         else
@@ -84,5 +96,15 @@ namespace ArtMart.Controllers
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home", new { area = "" });
         }
+
+        private void SetUserSession(ApplicationUser user)
+        {
+            HttpContext.Session.SetString("UserId", user.Id);
+            HttpContext.Session.SetString("UserName", user.UserName);
+            HttpContext.Session.SetString("FullName", user.FullName ?? "");
+            HttpContext.Session.SetString("Email", user.Email);
+            HttpContext.Session.SetString("Role", user.Role);
+        }
+
     }
 }

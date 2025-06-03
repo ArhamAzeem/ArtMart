@@ -1,0 +1,67 @@
+﻿@model List<ArtMart.Models.ApplicationUser>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<div class="page-header">
+    <div>
+        <h3>User Management</h3>
+        <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+            <ul class="d-flex flex-wrap align-items-center list-unstyled m-0 p-0">
+                <li class="me-2">
+                    <a href="/" class="text-decoration-none text-dark">
+                        <i class="fas fa-home mr-2"></i>@ViewBag.SiteName
+                    </a>
+                </li>
+                <li class="text-muted">
+                    <i class="fa-solid fa-angle-right mx-2"></i>Users
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="datatable table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Full Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model)
+                            {
+                                <tr>
+                                    <td>@user.FullName</td>
+                                    <td>@user.Email</td>
+                                    <td>@user.Role</td>
+                                    <td>
+                                        @if (user.Role != "Admin")
+                                        {
+                                            <a href="/Admin/Dashboard/Promote/@user.Id" class="btn btn-primary btn-sm promoteToAdmin" title="Promote to Admin">
+                                                <i class="fas fa-user-plus"></i>
+                                            </a>
+                                        }
+                                        <a href="/Admin/Dashboard/Delete/@user.Id" class="btn btn-danger btn-sm" title="Delete User">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

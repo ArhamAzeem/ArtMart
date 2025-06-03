@@ -1,0 +1,77 @@
+﻿@model ArtMart.Models.Order
+@{
+    ViewBag.Title = "Order Success";
+}
+<!-- Top area strats -->
+<div class="top-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 d-flex mb-120">
+                <div class="top-content">
+                    <ul>
+                        <li>
+                            <a href="/">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.125 5.99955L5.602 1.52205C5.822 1.30255 6.178 1.30255 6.3975 1.52205L10.875 5.99955M2.25 4.87455V9.93705C2.25 10.2475 2.502 10.4995 2.8125 10.4995H4.875V8.06205C4.875 7.75155 5.127 7.49955 5.4375 7.49955H6.5625C6.873 7.49955 7.125 7.75155 7.125 8.06205V10.4995H9.1875C9.498 10.4995 9.75 10.2475 9.75 9.93705V4.87455M4.125 10.4995H8.25"
+                                          stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li>Order</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card shadow-sm border-0">
+                <div class="card-header bg-dark text-white text-center">
+                    <h4 class="mb-0">Order Summary</h4>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <strong>Product:</strong> @Model.Product?.Name ?? "N/A"
+                    </div>
+                    <div class="mb-3">
+                        <strong>Amount:</strong> <span class="text-primary">Rs. @Model.Amount.ToString("N0")</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Status:</strong>
+                        <span class="badge @GetStatusClass(Model.Status)">
+                            @Model.Status
+                        </span>
+                    </div>
+                    <div class="mb-3">
+                        <strong>Seller:</strong> @Model.Seller?.FullName
+                    </div>
+                    <div class="mb-3">
+                        <strong>Placed At:</strong> @Model.PlacedAt.ToString("f")
+                    </div>
+                </div>
+                <div class="card-footer text-end">
+                    <a href="/Account/MyOrders" class="btn btn-outline-dark">View My Orders</a>
+                    <a href="/" class="btn btn-dark">Continue Shopping</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    private string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "bg-warning text-dark",
+            "Confirmed" => "bg-primary",
+            "Shipped" => "bg-info text-white",
+            "Delivered" => "bg-success",
+            "Cancelled" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}

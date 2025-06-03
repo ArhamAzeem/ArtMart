@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using ArtMart.Models
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<ApplicationUser> UserManager
+@{
+	var adminUser = UserManager.GetUserAsync(User).Result;
+	var adminName = adminUser?.FullName ?? "Admin";
+	var adminEmail = adminUser?.Email ?? "";
+}
+
+
+<!DOCTYPE html>
 
 <html>
 <head>
@@ -16,6 +26,7 @@
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 
 	<!-- Fontawesome Icon -->
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
@@ -47,8 +58,9 @@
 
 	<!-- Main CSS -->
 	<link rel="stylesheet" href="~/adminassets/assets/main/css/main.css" type="text/css">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
 
-	<!-- <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script> -->
+	 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 	<!-- Main scripts (JQUERY Included (3.4.1)) -->
 	<script src="<~/adminassets/vendors/bundle.js"></script>
 
@@ -144,16 +156,16 @@
 											 alt="image" />
 									</figure>
 									<h5 class="text-center">
-										Admin
+											@adminName
 									</h5>
 									<div class="mb-2 small text-center text-muted">
-										admin@domain.com
+											@adminEmail
 									</div>
 								</div>
 								<div class="list-group">
 									<a href="#"
 									   class="list-group-item">View Profile</a>
-									<a href="#"
+										<a href="/Auth/Logout"
 									   class="list-group-item text-danger">
 										Sign
 										Out!
@@ -187,14 +199,76 @@
 		</div>
 		<div class="navigation-menu-body">
 			<ul>
-				<li>
-					<a href="#" class="active">
-						<span class=" nav-link-icon">
-							<i class="fas fa-chart-pie"></i>
-						</span>
-						<span>Dashboard</span>
-					</a>
-				</li>
+						<li>
+							<a href="/Admin/Dashboard/Index"
+							   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" &&
+               ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+								<span class="nav-link-icon">
+									<i class="fas fa-chart-pie"></i>
+								</span>
+								<span>Dashboard</span>
+							</a>
+						</li>
+						<li>
+							<a href="/Admin/Dashboard/Users"
+							   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" &&
+               ViewContext.RouteData.Values["action"]?.ToString() == "Users" ? "active" : "")">
+								<span class="nav-link-icon">
+									<i class="fas fa-users"></i>
+								</span>
+								<span>Users</span>
+							</a>
+						</li>
+						<li>
+							<a href="/Admin/Dashboard/Requests"
+							   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" &&
+               ViewContext.RouteData.Values["action"]?.ToString() == "Requests" ? "active" : "")">
+								<span class="nav-link-icon">
+                                    <i class="fas fa-envelope"></i>
+								</span>
+								<span>Artist Requests</span>
+							</a>
+						</li>
+						<li>
+							<a href="/Admin/Category/Index"
+							   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Category" &&
+               ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+								<span class="nav-link-icon">
+                                    <i class="fas fa-list"></i>
+								</span>
+								<span>Category</span>
+							</a>
+						</li>
+						<li>
+							<a href="/Admin/Product/Index"
+							   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Product" &&
+               ViewContext.RouteData.Values["action"]?.ToString() == "Index" ? "active" : "")">
+								<span class="nav-link-icon">
+                                    <i class="fas fa-palette"></i>
+								</span>
+								<span>Art</span>
+							</a>
+						</li>
+						<li>
+							<a href="/Admin/Dashboard/SellerOrders"
+							   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" &&
+               ViewContext.RouteData.Values["action"]?.ToString() == "SellerOrders" ? "active" : "")">
+								<span class="nav-link-icon">
+									<i class="fas fa-palette"></i>
+								</span>
+								<span>Sales</span>
+							</a>
+						</li>
+						<li>
+							<a href="/Admin/Dashboard/Messages"
+							   class="@(ViewContext.RouteData.Values["controller"]?.ToString() == "Dashboard" &&
+               ViewContext.RouteData.Values["action"]?.ToString() == "Messages" ? "active" : "")">
+								<span class="nav-link-icon">
+                                    <i class="fas fa-envelope"></i>
+								</span>
+								<span>Messages</span>
+							</a>
+						</li>
 			</ul>
 		</div>
 	</div>
@@ -268,6 +342,7 @@
 
 	<!-- Prism -->
 	<script src="~/adminassets/vendors/prism/prism.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 	<!-- App scripts -->
 	<script src="~/adminassets/assets/js/app.min.js"></script>
@@ -347,6 +422,14 @@
 				});
 			}
 
+			$('.datatable').DataTable({
+				paging: true,
+				searching: true,
+				ordering: true,
+				responsive: false
+			});
+
+
 			toastr.options = {
 				timeOut: 3000,
 				progressBar: true,
@@ -366,6 +449,35 @@
 				}
 			});
 
+		});
+	</script>
+	<!-- Common SweetAlert Script -->
+	<script type="text/javascript">
+		function showAlert(type, title, message) {
+			Swal.fire({
+				icon: type, // 'success' or 'error'
+				title: title,
+				text: message,
+				confirmButtonText: 'OK'
+			});
+		}
+
+		$(document).ready(function () {
+			// Check if TempData contains a SuccessMessage
+		@if (TempData["SuccessMessage"] != null)
+		{
+			<text>
+							showAlert('success', 'Success', '@TempData["SuccessMessage"]');
+			</text>
+		}
+
+			// Check if TempData contains an ErrorMessage
+		@if (TempData["ErrorMessage"] != null)
+		{
+			<text>
+							showAlert('error', 'Error', '@TempData["ErrorMessage"]');
+			</text>
+		}
 		});
 	</script>
 	@RenderSection("Scripts", required: false)

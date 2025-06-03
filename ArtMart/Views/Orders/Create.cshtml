@@ -1,0 +1,80 @@
+﻿@model ArtMart.Models.ViewModels.OrderPlacementViewModel
+@{
+    ViewBag.Title = "Place Your Order";
+}
+<!-- Top area strats -->
+<div class="top-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 d-flex mb-120">
+                <div class="top-content">
+                    <ul>
+                        <li>
+                            <a href="/">
+                                <svg width="12" height="12" viewBox="0 0 12 12" fill="none"
+                                     xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M1.125 5.99955L5.602 1.52205C5.822 1.30255 6.178 1.30255 6.3975 1.52205L10.875 5.99955M2.25 4.87455V9.93705C2.25 10.2475 2.502 10.4995 2.8125 10.4995H4.875V8.06205C4.875 7.75155 5.127 7.49955 5.4375 7.49955H6.5625C6.873 7.49955 7.125 7.75155 7.125 8.06205V10.4995H9.1875C9.498 10.4995 9.75 10.2475 9.75 9.93705V4.87455M4.125 10.4995H8.25"
+                                          stroke="white" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                            </a>
+                        </li>
+                        <li>Order</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<h2>Confirm Your Order</h2>
+
+<!-- Top area ends -->
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="mb-3">@Model.ProductName</h5>
+                    <p class="mb-1"><strong>Seller:</strong> @Model.SellerName</p>
+                    <p><strong>Amount:</strong> <span class="text-success fw-bold">Rs. @Model.Amount</span></p>
+
+                    <form asp-action="PlaceOrder" asp-controller="Orders" asp-area="" method="post" autocomplete="off">
+                        @Html.HiddenFor(x => x.ProductId)
+                        @Html.HiddenFor(x => x.ProductName)
+                        @Html.HiddenFor(x => x.SellerName)
+                        @Html.HiddenFor(x => x.Amount)
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="CardHolderName" class="form-control" placeholder="Card Holder Name" required />
+                            <label asp-for="CardHolderName">Card Holder Name</label>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <input asp-for="CardNumber" class="form-control" placeholder="Card Number" maxlength="16" required />
+                            <label asp-for="CardNumber">Card Number</label>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="ExpiryDate" class="form-control" placeholder="MM/YY" required />
+                                    <label asp-for="ExpiryDate">Expiry Date</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3">
+                                    <input asp-for="CVV" class="form-control" placeholder="CVV" maxlength="4" required />
+                                    <label asp-for="CVV">CVV</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-dark w-100 py-2">Place Order</button>
+                    </form>
+                </div>
+            </div>
+            <p class="text-muted text-center small mt-3">
+                Your payment details are secured and encrypted.
+            </p>
+        </div>
+    </div>
+</div>

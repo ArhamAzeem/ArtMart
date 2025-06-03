@@ -1,0 +1,57 @@
+﻿@model List<ArtMart.Models.ContactMessage>
+
+@{
+    ViewData["Title"] = "Messages";
+}
+
+<div class="page-header">
+    <div>
+        <h3>Artist Requests</h3>
+        <nav aria-label="breadcrumb" style="--bs-breadcrumb-divider: '>';">
+            <ul class="d-flex flex-wrap align-items-center list-unstyled m-0 p-0">
+                <li class="me-2">
+                    <a href="/" class="text-decoration-none text-dark">
+                        <i class="fas fa-home mr-2"></i>@ViewBag.SiteName
+                    </a>
+                </li>
+                <li class="text-muted">
+                    <i class="fa-solid fa-angle-right mx-2"></i>Messages
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+
+        <div class="card">
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="datatable table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Received At</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var msg in Model)
+                            {
+                                <tr>
+                                    <td>@msg.Name</td>
+                                    <td>@msg.Email</td>
+                                    <td>@msg.Message</td>
+                                    <td>@msg.CreatedAt.ToString("dd MMM yyyy HH:mm")</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

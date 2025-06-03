@@ -1,6 +1,8 @@
 using ArtMart;
 using ArtMart.Models;
+using ArtMart.Services;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,7 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
         sqlServerOptions => sqlServerOptions.EnableRetryOnFailure()
     ));
 
-
+    
 // Configure Identity
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>()
@@ -24,9 +26,11 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LoginPath = "/Auth/Login";
     options.AccessDeniedPath = "/Auth/AccessDenied";
 });
+builder.Services.AddScoped<NotificationService>();
 
 // Add MVC Controllers & Views
 builder.Services.AddControllersWithViews();
+builder.Services.AddSession();
 
 var app = builder.Build();
 
@@ -35,6 +39,7 @@ using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
     var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    var services = scope.ServiceProvider;
 
     string[] roles = { "Admin", "Customer", "Artist" };
 
@@ -45,6 +50,13 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole(role));
         }
     }
+
+}
+
+using (var scope = app.Services.CreateScope())
+{
+
+    
 }
 
 // Configure Middleware
@@ -57,6 +69,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+// Configure Session
+app.UseSession();
 app.UseAuthentication();
 app.UseAuthorization();
 
@@ -71,7 +85,8 @@ app.UseEndpoints(endpoints =>
     // Default Route
     endpoints.MapControllerRoute(
         name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+        pattern: "{controller=Home}/{action=Index}/{id?}"
+);
 
     endpoints.MapControllers(); // Ensure API controllers work
 });

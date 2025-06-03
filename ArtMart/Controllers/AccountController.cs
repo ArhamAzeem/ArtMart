@@ -2,21 +2,28 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using ArtMart.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace ArtMart.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public AccountController(UserManager<ApplicationUser> userManager)
+        private readonly AppDbContext _dbContext;
+        public AccountController(UserManager<ApplicationUser> userManager, AppDbContext dbContext)
         {
             _userManager = userManager;
+            _dbContext = dbContext;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var userId = _userManager.GetUserId(User);
+            var notifications = await _dbContext.Notifications
+                .Where(n => n.UserId == userId)
+                .OrderByDescending(n => n.CreatedAt)
+                .ToListAsync();
+            return View(notifications);
         }
 
         [HttpGet]
@@ -101,6 +108,84 @@ namespace ArtMart.Controllers
             return RedirectToAction("Profile", "Account", new { area = "" });
         }
 
+        [HttpGet]
+        public async Task<IActionResult> RequestList()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return RedirectToAction("Login", "Auth", new { area = "" });
+
+            // Retrieve this user's promotion requests
+            var requests = _dbContext.PromotionRequests
+                .Where(r => r.UserId == user.Id)
+                .OrderByDescending(r => r.RequestDate)
+                .ToList();
+
+            return View(requests);
+        }
+
+        public async Task<IActionResult> SendPromotionRequest()
+        {
+            var userId = _userManager.GetUserId(User);
+            var existingRequest = await _dbContext.PromotionRequests
+                .Where(r => r.UserId == userId)
+                .OrderByDescending(r => r.RequestDate)
+                .FirstOrDefaultAsync();
+
+            if (existingRequest != null && existingRequest.Status == PromotionStatus.Pending)
+            {
+                TempData["ErrorMessage"] = "You already have a pending promotion request.";
+                return RedirectToAction("RequestList", "Account", new { area = "" });
+            }
+
+#pragma warning disable CS8601 // Possible null reference assignment.
+            var request = new PromotionRequest
+            {
+                UserId = userId,
+                RequestDate = DateTime.UtcNow,
+                Status = PromotionStatus.Pending
+            };
+
+            #pragma warning restore CS8601 // Possible null reference assignment.
+            _dbContext.PromotionRequests.Add(request);
+            await _dbContext.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Your request to become an Artist has been submitted.";
+            return RedirectToAction("RequestList", "Account", new { area = "" });
+        }
+
+        public async Task<IActionResult> MyBids()
+        {
+            var user = await _userManager.GetUserAsync(User);
+
+            if (user == null)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var myBids = _dbContext.Bids
+            .Include(b => b.Product)
+            .Where(b => b.UserId == user.Id)
+            .OrderByDescending(b => b.Id)
+            .ToList();
+
+            return View(myBids);
+        }
+
+        public async Task<IActionResult> MyOrders()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+                return Unauthorized();
+
+            var orders = await _dbContext.Orders
+                .Include(o => o.Product)
+                .Include(o => o.Seller)
+                .Where(o => o.CustomerId.ToString() == user.Id) // Convert CustomerId to string for comparison  
+                .ToListAsync();
+
+            return View(orders);
+        }
 
     }
 }

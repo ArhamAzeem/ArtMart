@@ -249,6 +249,10 @@ a.active
     background: #f1f1f1 !important;
 }
 
+.navigation .navigation-menu-body ul li a {
+    color: black !important;
+}
+
 .navigation.open ul li a.active {
     color: #292524 !important;
     background: #f1f1f1 !important;
@@ -281,12 +285,9 @@ a.btn[href="#previous"]:not(:disabled):not(.disabled):focus {
   box-shadow: 0 0 0 0.2rem rgb(51 51 56 / 32%) !important;
 }
 
-body:not(.horizontal-navigation)
-.navigation
-.navigation-menu-body
-ul
-li.open > a
-.nav-link-icon {
+body:not(.horizontal-navigation) .navigation
+.navigation-menu-body ul
+li.open > a .nav-link-icon {
     color: #292524 !important;
 }
 
